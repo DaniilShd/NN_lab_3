@@ -148,6 +148,9 @@ def train(learning_rate, num_epochs, batch_size,
           f"Train Loss: {train_loss:.4f}, Train Acc: {train_accuracy:.4f} "
           f"| Val Loss: {val_loss:.4f}, Val Acc: {val_accuracy:.4f}")
 
+  # Сохраняем веса модели
+  torch.save(model.state_dict(), 'model/model_weights.pth')
+
   test_loss = val_losses[-1]
   test_accuracy = val_accuracies[-1]
   print(f"\nРезультаты на тестовой выборке:\nПотери: {test_loss:.4f}, Точность: {test_accuracy:.4f}")
