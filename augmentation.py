@@ -1,21 +1,30 @@
 from torchvision import transforms
 import matplotlib.pyplot as plt
-from data import download_data
+# from data import download_data
 
 train_transforms = transforms.Compose([
-    transforms.ToPILImage(),  # нужно, если вход — numpy-изображение
-    transforms.RandomHorizontalFlip(p=0.5),  # горизонтальное отражение с вероятностью 50%
-    transforms.RandomRotation(degrees=36),  # случайный поворот на ±36 градусов
-    transforms.RandomAffine(degrees=0, scale=(0.8, 1.2)),  # случайное масштабирование (80%-120%)
-    transforms.Resize((180, 180)),  # приведение к размеру 180x180
-    transforms.ToTensor()  # преобразование в тензор
+    # Преобразуем тензор в PIL Image (если нужно)
+    transforms.Lambda(lambda x: x.permute(1, 2, 0).numpy()),  # CHW → HWC и в numpy
+    transforms.ToPILImage(),  # numpy array → PIL Image
+
+    # Аугментации
+    transforms.RandomHorizontalFlip(p=0.5),
+    transforms.RandomRotation(degrees=36),
+    transforms.RandomAffine(degrees=0, scale=(0.8, 1.2)),
+    transforms.Resize((180, 180)),
+
+    # Обратно в тензор
+    transforms.ToTensor()
 ])
 
 # Тестовые данные — без аугментации
 test_transforms = transforms.Compose([
+# Преобразуем тензор в PIL Image (если нужно)
+    transforms.Lambda(lambda x: x.permute(1, 2, 0).numpy()),  # CHW → HWC и в numpy
     transforms.ToPILImage(),
     transforms.Resize((180, 180)),
-    transforms.ToTensor()
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
 if __name__ == "__main__":
