@@ -10,9 +10,9 @@ import os
 
 if __name__ == "__main__":
 
-    if not os.path.exists("model/model_weights_1.pth"):
+    if not os.path.exists("model/model_weights_base.pth"):
         train_tensor_dataset, test_tensor_dataset = get_datasets("./data")
-        train(0.0001, 1, 32,
+        train(0.0001, 31, 32,
               train_tensor_dataset, test_tensor_dataset)
     else:
         print("Модель уже обучена")

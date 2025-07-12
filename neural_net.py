@@ -5,6 +5,7 @@ import torch.onnx
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
+from utilities.save import to_json
 
 class CNNBinaryClassifier(nn.Module):
   def __init__(self):
@@ -150,6 +151,11 @@ def train(learning_rate, num_epochs, batch_size,
 
   # Сохраняем веса модели
   torch.save(model.state_dict(), 'model/model_weights.pth')
+
+  to_json("metrics/model_base/train", "train_accuracies", train_accuracies)
+  to_json("metrics/model_base/train", "train_losses", train_losses)
+  to_json("metrics/model_base/validation", "val_accuracies", val_accuracies)
+  to_json("metrics/model_base/validation", "val_losses", val_losses)
 
   test_loss = val_losses[-1]
   test_accuracy = val_accuracies[-1]
