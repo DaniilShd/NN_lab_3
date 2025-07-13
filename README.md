@@ -4,10 +4,10 @@
 В лабораторной работе рассмотрено 2 набора датасета для обучения нейронной сети: оригинальный датсет и датасет с применением аугментации для увеличения тренировочных данных. С помощью аугментации тренировочный датасет был увеличен в 2 раза. 
 
 Результаты обучения нейросети на оригинальном датасете:  
-![origin_dataset](https://github.com/DaniilShd/NN_lab_3/blob/main/images/original_dataset.png)
+![origin_dataset](https://github.com/DaniilShd/NN_lab_3/blob/main/images/origin_dataset.png)
 
 Результаты обучения нейросети на аугментированных датасете: 
-![augmentation_dataset](https://github.com/DaniilShd/NN_lab_3/blob/mains/image/augmentation_dataset.png)
+![augmentation_dataset](https://github.com/DaniilShd/NN_lab_3/blob/main/images/augmentation_dataset.png)
 
 
 В результате выполнения данной лабораторной работы получены навыки обучения
