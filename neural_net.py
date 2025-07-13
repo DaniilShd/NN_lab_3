@@ -5,6 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from utilities.save import to_json
+from augmentation import train_transforms, test_transforms
 
 class CNNBinaryClassifier(nn.Module):
   def __init__(self):
@@ -214,6 +215,8 @@ def train_aug(learning_rate, num_epochs, batch_size,
                             shuffle=True)  # shuffle=True
 
   test_loader = DataLoader(test_dataset, batch_size=batch_size)
+
+
   device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
   # Пример создания модели
@@ -239,6 +242,11 @@ def train_aug(learning_rate, num_epochs, batch_size,
     # Одна эпоха обучения
     for images, labels in train_loader:
       images, labels = images.to(device), labels.to(device)
+
+      # Включаем аугментацию батча "на лету"
+      images = [train_transforms(_) for _ in images]
+      images = torch.stack(images).to(device)
+
       optimizer.zero_grad()
       outputs = model(images)
 
@@ -264,7 +272,13 @@ def train_aug(learning_rate, num_epochs, batch_size,
     with torch.no_grad():
       for images, labels in test_loader:
         images, labels = images.to(device), labels.to(device)
+
+        # Включаем аугментацию батча "на лету"
+        images = [test_transforms(_) for _ in images]
+        images = torch.stack(images).to(device)
+
         outputs = model(images)
+
         # print(outputs.shape)
         loss = criterion(outputs, labels)
         val_loss += loss.item()
