@@ -211,8 +211,7 @@ def train_aug(learning_rate, num_epochs, batch_size,
   num_epochs = num_epochs  # количество эпох
   batch_size = batch_size  # размер батча
 
-  train_loader = DataLoader(train_dataset, batch_size=batch_size,
-                            shuffle=True)  # shuffle=True
+  train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)  # shuffle=True
 
   test_loader = DataLoader(test_dataset, batch_size=batch_size)
 
@@ -220,8 +219,7 @@ def train_aug(learning_rate, num_epochs, batch_size,
   device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
   # Пример создания модели
-  model = CNNBinaryClassifier()
-  model = model.to(device)
+  model = CNNBinaryClassifierAug().to(device)
 
   criterion = nn.BCELoss()
   optimizer = optim.RMSprop(model.parameters(), lr=learning_rate)
@@ -252,9 +250,12 @@ def train_aug(learning_rate, num_epochs, batch_size,
 
       # print(outputs.shape)
       loss = criterion(outputs, labels)
+      outputs = model(images).squeeze()
+      labels = labels.squeeze(1)
       loss.backward()
       optimizer.step()
       print(f"Train Loss: {loss.item()}")
+
       running_loss += loss.item()
       preds = (outputs > 0.5).float()
       correct_train += (preds == labels).sum().item()

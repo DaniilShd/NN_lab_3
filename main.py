@@ -21,8 +21,8 @@ if __name__ == "__main__":
     #     # model.load_state_dict(torch.load('model_weights.pth'))
 
     if not os.path.exists("model/model_augmentation_weights_base.pth"):
-        train_dataset, test_dataset = get_datasets("./data")
-        train_aug(0.0001, 30, 32,
-              train_dataset, test_dataset)
+        train_tensor_dataset, test_tensor_dataset = get_datasets("./data")
+        train_aug(0.0001, 30, 16,
+              train_tensor_dataset, test_tensor_dataset)
     else:
         print("Модель уже обучена")
