@@ -1,5 +1,4 @@
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
 import torch.onnx
 import torch.nn as nn
@@ -98,7 +97,9 @@ def train(learning_rate, num_epochs, batch_size,
       loss = criterion(outputs, labels)
       loss.backward()
       optimizer.step()
+
       print(f"Train Loss: {loss.item()}")
+
       running_loss += loss.item()
       preds = (outputs > 0.5).float()
       correct_train += (preds == labels).sum().item()
@@ -137,17 +138,6 @@ def train(learning_rate, num_epochs, batch_size,
           f"Train Loss: {train_loss:.4f}, Train Acc: {train_accuracy:.4f} "
           f"| Val Loss: {val_loss:.4f}, Val Acc: {val_accuracy:.4f}")
 
-    val_accuracy = correct_val / total_val
-
-    # Сохраняем метрики
-    train_losses.append(train_loss)
-    val_losses.append(val_loss)
-    train_accuracies.append(train_accuracy)
-    val_accuracies.append(val_accuracy)
-
-    print(f"Эпоха [{epoch + 1}/{num_epochs}] "
-          f"Train Loss: {train_loss:.4f}, Train Acc: {train_accuracy:.4f} "
-          f"| Val Loss: {val_loss:.4f}, Val Acc: {val_accuracy:.4f}")
 
   # Сохраняем веса модели
   torch.save(model.state_dict(), 'model/model_weights.pth')
@@ -295,17 +285,6 @@ def train_aug(learning_rate, num_epochs, batch_size,
           f"Train Loss: {train_loss:.4f}, Train Acc: {train_accuracy:.4f} "
           f"| Val Loss: {val_loss:.4f}, Val Acc: {val_accuracy:.4f}")
 
-    val_accuracy = correct_val / total_val
-
-    # Сохраняем метрики
-    train_losses.append(train_loss)
-    val_losses.append(val_loss)
-    train_accuracies.append(train_accuracy)
-    val_accuracies.append(val_accuracy)
-
-    print(f"Эпоха [{epoch + 1}/{num_epochs}] "
-          f"Train Loss: {train_loss:.4f}, Train Acc: {train_accuracy:.4f} "
-          f"| Val Loss: {val_loss:.4f}, Val Acc: {val_accuracy:.4f}")
 
   # Сохраняем веса модели
   torch.save(model.state_dict(), 'model/model_augmentation_weights.pth')

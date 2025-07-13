@@ -19,12 +19,15 @@ def read_json_to_list(file_path):
 
 
 if __name__ == "__main__":
-    base_path = "../metrics/model_base"
+    # base_path = "../metrics/model_base"
+    base_path = "../metrics/model_augmentation"
 
     train_accuracies = read_json_to_list(f"{base_path}/train/train_accuracies.json")
     train_losses = read_json_to_list(f"{base_path}/train/train_losses.json")
     val_accuracies = read_json_to_list(f"{base_path}/validation/val_accuracies.json")
     val_losses = read_json_to_list(f"{base_path}/validation/val_losses.json")
+
+    print(len(train_accuracies))
 
     plt.plot( range(len(train_accuracies)),train_accuracies, "bo", label="Точность на обучении")
     plt.plot( range(len(val_accuracies)), val_accuracies, color="orange", label="Точность на валидации")
